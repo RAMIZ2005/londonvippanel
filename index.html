@@ -1,17 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>London VIP Panel</title>
-  <meta name="description" content="London VIP License Management System – secure admin panel and license system">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LONDON VIP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <h1>London VIP Panel</h1>
-  <p>Premium License Management System</p>
 
-  <a href="https://t.me/ramizcc1k_b9" target="_blank">
-    Contact on Telegram
-  </a>
+<div class="container">
+    <div class="login-container">
+        <h3 class="text-center mb-4">LONDON VIP Admin</h3>
+        <form id="loginForm">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+        <div id="errorMessage" class="alert alert-danger mt-3 d-none"></div>
+    </div>
+</div>
+
+<script src="assets/js/api.js"></script>
+<script>
+    if (api.isAuthenticated()) {
+        window.location.href = 'dashboard.html';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        const errorDiv = document.getElementById('errorMessage');
+
+        try {
+            await api.login(username, pass);
+            window.location.href = 'dashboard.html';
+        } catch (error) {
+            errorDiv.textContent = error.message;
+            errorDiv.classList.remove('d-none');
+        }
+    });
+</script>
 </body>
 </html>
